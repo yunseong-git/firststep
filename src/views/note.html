@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>노트 보기</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <h1>📖 노트 상세</h1>
+
+    <div id="noteDetail">
+        <h2 id="noteTitle"></h2>
+        <p id="noteContent"></p>
+    </div>
+
+    <!-- 노트 수정 폼 -->
+    <form id="editNoteForm">
+        <input type="text" id="editTitle" required>
+        <textarea id="editContent" required></textarea>
+        <button type="submit">수정</button>
+        <button id="deleteNote">삭제</button>
+    </form>
+
+    <a href="index.html">← 목록으로 돌아가기</a>
+
+    <script src="script.js"></script>
+</body>
+</html>
