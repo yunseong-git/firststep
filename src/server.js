@@ -1,9 +1,11 @@
 import express from "express";
 import mongoose from "mongoose";
-import noteRouter from "./routes/noteRouter";
 import cors from "cors";
 import dotenv from "dotenv";
 import path from "path";
+import helmet from "helmet";
+import rateLimit from "express-rate-limit";
+import routers from "./routes/routers";
 
 dotenv.config();
 
@@ -11,24 +13,36 @@ const app = express();
 const port = process.env.PORT;
 const db_url = process.env.DB_URL;
 
-app.use(express.static(path.join(__dirname,"public")));
-app.use(express.static(path.join(__dirname,"views")));
-
 const server = async () => {
     try {
+        //보안 설정
+        app.use(helmet());
+        app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 100 }));
+
+        //미들웨어 설정
         app.use(cors());
         app.use(express.json());
         app.use(express.urlencoded({ extended: true }));
 
+        //정적 파일 제공
+        app.use(express.static(path.join(__dirname, "public")));
+        app.use(express.static(path.join(__dirname, "views")));
+
+        //데이터베이스
+        mongoose.connect(db_url, { dbName: "project" })
+            .then(() => console.log("MongoDB connected"))
+            .catch((err) => console.error("MongoDB connection error:", err));
+
+        //서버 실행
         app.listen(port, () => {
             console.log(`Server is running on ${port}`);
         });
 
-        await mongoose.connect(db_url,{dbName:"step"});
-        console.log("MongoDB connected");
+        //라우터 등록
+        routers.forEach(({ path, router }) => {
+            app.use(path, router);
+        });
 
-        app.use("/note", noteRouter); //라우터 등록
-        
         app.get("/", (req, res) => {
             res.sendFile(path.join(process.cwd(), "src", "views", "index.html"));
         });

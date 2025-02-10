@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
-import { Bscore, Pscore, Mscore } from "../models/score"
+import { record } from "../models/record"
 
-async function mSave(req, res, next) {
+/**병사 면담기록작성 */
+async function saveRecord(req, res, next) {
     try {
         res.status(201).json();
     } catch (err) {
@@ -10,7 +11,8 @@ async function mSave(req, res, next) {
     }
 }
 
-async function bSave(req, res, next) {
+/**병사 면담기록 리스트 조회 */
+async function getRecords(req, res, next) {
     try {
         res.status(201).json();
     } catch (err) {
@@ -19,7 +21,8 @@ async function bSave(req, res, next) {
     }
 }
 
-async function pSave(req, res, next) {
+/**병사 면담기록 자세히 보기 */
+async function getDetails(req, res, next) {
     try {
         res.status(201).json();
     } catch (err) {
@@ -28,7 +31,8 @@ async function pSave(req, res, next) {
     }
 }
 
-async function getAllScoresM(req, res, next) {
+/**병사 면담기록 수정*/
+async function updateRecord(req, res, next) {
     try {
         res.status(201).json();
     } catch (err) {
@@ -37,7 +41,8 @@ async function getAllScoresM(req, res, next) {
     }
 }
 
-async function getAllScoresB(req, res, next) {
+/**병사 면담기록 수정*/
+async function updateRecord(req, res, next) {
     try {
         res.status(201).json();
     } catch (err) {
@@ -46,7 +51,8 @@ async function getAllScoresB(req, res, next) {
     }
 }
 
-async function getAllScoresP(req, res, next) {
+/**병사 면담기록 삭제*/
+async function deleteRecord(req, res, next) {
     try {
         res.status(201).json();
     } catch (err) {
@@ -54,14 +60,3 @@ async function getAllScoresP(req, res, next) {
         next(err);
     }
 }
-
-async function mGet(req, res, next) {
-    try {
-        res.status(201).json();
-    } catch (err) {
-        res.status(400).json({ message: err.message });
-        next(err);
-    }
-}
-
-

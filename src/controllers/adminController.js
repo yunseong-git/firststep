@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
-import { Bscore, Pscore, Mscore } from "../models/score"
+import { admin } from "../models/admin";
 
-async function mSave(req, res, next) {
+/**관리자 등록, "all"권한만 가능 */
+async function registerAdmin(req, res, next) {
     try {
         res.status(201).json();
     } catch (err) {
@@ -10,7 +11,7 @@ async function mSave(req, res, next) {
     }
 }
 
-async function bSave(req, res, next) {
+async function login(req, res, next) {
     try {
         res.status(201).json();
     } catch (err) {
@@ -19,7 +20,7 @@ async function bSave(req, res, next) {
     }
 }
 
-async function pSave(req, res, next) {
+async function logout(req, res, next) {
     try {
         res.status(201).json();
     } catch (err) {
@@ -28,7 +29,8 @@ async function pSave(req, res, next) {
     }
 }
 
-async function getAllScoresM(req, res, next) {
+/**관리자 수정, 본인만 가능 */
+async function updateAdmin(req, res, next) {
     try {
         res.status(201).json();
     } catch (err) {
@@ -37,7 +39,8 @@ async function getAllScoresM(req, res, next) {
     }
 }
 
-async function getAllScoresB(req, res, next) {
+/**관리자 삭제, "all"권한만 가능 */
+async function deleteAdmin(req, res, next) {
     try {
         res.status(201).json();
     } catch (err) {
@@ -45,23 +48,3 @@ async function getAllScoresB(req, res, next) {
         next(err);
     }
 }
-
-async function getAllScoresP(req, res, next) {
-    try {
-        res.status(201).json();
-    } catch (err) {
-        res.status(400).json({ message: err.message });
-        next(err);
-    }
-}
-
-async function mGet(req, res, next) {
-    try {
-        res.status(201).json();
-    } catch (err) {
-        res.status(400).json({ message: err.message });
-        next(err);
-    }
-}
-
-
