@@ -1,8 +1,11 @@
 import mongoose from "mongoose";
-//병사 기본정보 스키마
+
+export { unit, soldier };
+
+/**병사 개인정보 스키마*/
 const soldierSchema = new mongoose.Schema({
   mId: { type: String, required: true, unique: true }, // 군번
-  unit: { type: String, required: true }, // 소속 (예: "1소대")
+  unit: { type: String, required: true }, // 소속 ex)unit1
   rank: { type: String, required: true }, //계급
   name: { type: String, required: true }, //이름
   startDate: { type: Date, required: true }, // 입대일
@@ -14,5 +17,11 @@ const soldierSchema = new mongoose.Schema({
   height: { type: Number, required: true }, //키
   hobby: { type: String }, //취미
 });
+const soldier = mongoose.model("soldier", soldierSchema);
 
-export const soldier = mongoose.model("soldier", soldierSchema);
+/**부대 분류 스키마*/
+const unitSchema = new mongoose.Schema({
+  unitId: { type: String, required: true, index: true }, //unit number ex)unit1
+  unitName: { type: String, required: true }, //ex)1소대, 중대본부
+})
+const unit = mongoose.model("unit", unitSchema);

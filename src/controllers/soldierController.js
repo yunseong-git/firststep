@@ -1,8 +1,16 @@
 import mongoose from "mongoose";
-import { soldier } from "../models/soldiers";
+import { soldier } from "../models/soldier";
+import { Bscore, Pscore, Mscore } from "../models/evaluation"
+
+export const soldierController = {
+    saveSoldier,
+    getSoldier,
+    getAllSoldiers,
+    updateSoldier,
+    deleteSoldier,
+};
 
 /**병사 개인정보 저장 */
-//스키마에서 객체로 되어있는 부분과 status항목을 삭제 처리했음.
 async function saveSoldier(req, res, next) {
     try {
         const newSoldier = new soldier({
@@ -38,6 +46,31 @@ async function getSoldier(req, res, next) {
 
         if (!soldierData) {
             return res.status(404).json({ message: "해당 군번의 병사가 존재하지 않습니다." });
+        }
+
+        //병사 상세 조회
+        if (req.user.role !== "all" && soldierData.unit !== req.user.role) {
+            return res.status(403).json({ message: "접근 권한이 없습니다." });
+        }
+
+        console.log("병사 조회 성공:", soldierData);
+        res.status(200).json(soldierData);
+
+    } catch (err) {
+        console.error("병사 조회 중 오류 발생:", err);
+        res.status(500).json({ message: "서버 오류 발생" });
+        next(err);
+    }
+}
+
+async function getSoldierScores(req, res, next) {
+    try {
+        const { mId } = req.params;
+        const soldierScoreM = await Mscore.findOne({ mId })
+        const soldierScoreB = await Bscore.findOne({ mId })
+        const soldierScoreP = await Pscore.findOne({ mId })
+        if (!soldierScoreM && !soldierScoreB && !soldierScoreP) {
+            return res.status(404).json({ message: "해당 군번의 점수가 존재하지 않습니다." });
         }
 
         //병사 상세 조회
@@ -115,6 +148,7 @@ async function updateSoldier(req, res, next) {
     }
 }
 
+/**병사 모든 정보 삭제(cascade delete) */
 async function deleteSoldier(req, res, next) {
     try {
 
@@ -131,12 +165,19 @@ async function deleteSoldier(req, res, next) {
             return res.status(403).json({ message: "접근 권한이 없습니다." });
         }
 
-        //최종 삭제
-        const discharged = await soldier.deleteOne({ mId });
+        //병사정보 삭제
+        await soldier.deleteOne({ mId });
+
+        //관련기록 삭제
+        await Pscore.deleteMany({ mId });
+        await Bscore.deleteMany({ mId });
+        await Mscore.deleteMany({ mId });
+        await record.deleteMany({ mId });
 
 
-        console.log("병사 삭제 성공:", discharged);
-        res.status(200).json(discharged);
+        console.log(`병사 ${mId} 삭제 완료 (관련 기록 및 점수 삭제 포함)`);
+        res.status(200).json({ message: `병사 ${mId} 삭제 완료 (관련 기록 및 점수 삭제 포함)` });
+
 
     } catch (err) {
         console.error("병사 삭제 중 오류 발생:", err);
@@ -144,11 +185,3 @@ async function deleteSoldier(req, res, next) {
         next(err);
     }
 }
-
-export {
-    saveSoldier,
-    getSoldier,
-    getAllSoldiers,
-    updateSoldier,
-    deleteSoldier,
-};

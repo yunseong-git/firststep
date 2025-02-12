@@ -1,5 +1,14 @@
 import mongoose from "mongoose";
 import { record } from "../models/record"
+//모든 면담기록은 본인 소속만 가능
+
+export const recordController = {
+    saveRecord,
+    getRecords,
+    getDetails,
+    updateRecord,
+    deleteRecord,
+}
 
 /**병사 면담기록작성 */
 async function saveRecord(req, res, next) {
@@ -23,16 +32,6 @@ async function getRecords(req, res, next) {
 
 /**병사 면담기록 자세히 보기 */
 async function getDetails(req, res, next) {
-    try {
-        res.status(201).json();
-    } catch (err) {
-        res.status(400).json({ message: err.message });
-        next(err);
-    }
-}
-
-/**병사 면담기록 수정*/
-async function updateRecord(req, res, next) {
     try {
         res.status(201).json();
     } catch (err) {
