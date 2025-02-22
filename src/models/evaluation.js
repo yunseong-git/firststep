@@ -4,6 +4,7 @@ export { score, evaluation };
 
 /**평가 세부정보 및 부대 점수*/
 const evaluationSchema = new mongoose.Schema({
+  tId: { type: String, required: true, unique: true }, //평가id
   title: { type: String, required: true }, //평가제목
   type: {
     type: String,
@@ -34,6 +35,7 @@ const evaluation = mongoose.model("evaluation", evaluationSchema);
 const scoreSchema = new mongoose.Schema({
   mId: { type: String, required: true, index: true },
   results: {
+    tId: { type: String, required: true, unique: true }, //평가id
     title: { type: String, required: true },
     type: {
       type: String,

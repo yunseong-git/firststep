@@ -1,3 +1,4 @@
+/*
 import mongoose from "mongoose";
 import { Bscore, Pscore, Mscore } from "../models/evaluation"
 
@@ -19,4 +20,5 @@ async function getUnitScores(req, res, next) {
     }
 }
 
-
+*/
+//추후 수정
