@@ -45,7 +45,7 @@ async function connectDatabase() {
     }
 }
 
-// ✅ 5. 라우터 등록 함수
+//라우터 등록
 function setRoutes(app) {
     routers.forEach(({ path, router }) => {
         app.use(path, router);
@@ -62,7 +62,7 @@ function setRoutes(app) {
     });
 }
 
-//6. 서버 실행 함수
+//서버 실행
 function startServer(app) {
     app.listen(process.env.PORT, () => {
         console.log(`Server is running on port ${process.env.PORT}`);
