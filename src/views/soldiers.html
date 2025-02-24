@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>병사 목록</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+    <h1>병사 목록</h1>
+
+    <button id="btn-1소대">1소대</button>
+    <button id="btn-2소대">2소대</button>
+    <button id="btn-3소대">3소대</button>
+    <button id="btn-all">전체</button>
+
+    <table>
+        <thead>
+            <tr>
+                <th>군번</th>
+                <th>소속</th>
+                <th>계급</th>
+                <th>이름</th>
+                <th>조회</th>
+            </tr>
+        </thead>
+        <tbody id="soldierTable"></tbody> <!-- ✅ id 확인 -->
+    </table>
+
+    <div>
+        <button id="prevPage" onclick="changePage(-1)" disabled>이전 페이지</button>
+        <span id="currentPage">1</span> / <span id="totalPages">1</span>
+        <button id="nextPage" onclick="changePage(1)" disabled>다음 페이지</button>
+    </div>
+    <script src="/logout.js"></script> <!-- 로그아웃 & 로그인 연장 추가 -->
+    <script src="/soldiers.js"></script> <!-- ✅ 스크립트 위치 확인 -->
+</body>
+
+</html>

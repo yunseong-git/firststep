@@ -15,7 +15,7 @@ export const adminController = {
     updateAdmin,
     updateAdminUnit,
     deleteAdmin,
-    devRegistAdmin,
+    getAdminDetail
 }
 /** 관리자 등록, "all" 권한만 가능 */
 async function registAdmin(req, res, next) {
@@ -39,25 +39,6 @@ async function registAdmin(req, res, next) {
         next(err);
     }
 }
-
-async function devRegistAdmin(req, res, next) {
-    try {
-        const { mId, password, position, rank, name, unit } = req.body;
-        const saltRounds = parseInt(process.env.SALT) || 10;
-        const salt = await bcrypt.genSalt(saltRounds);
-        const hashedPassword = await bcrypt.hash(password || mId, salt); // 기본 비밀번호 설정
-
-        const newAdmin = new admin({ mId, password: hashedPassword, position, rank, name, unit });
-        await newAdmin.save();
-
-        res.status(201).json({ message: "관리자 등록 완료." });
-    } catch (err) {
-        console.error("관리자 등록 중 오류 발생:", err);
-        res.status(500).json({ message: "서버에서 오류가 발생했습니다." });
-        next(err);
-    }
-}
-
 
 /** 관리자 로그인 */
 async function login(req, res, next) {
@@ -88,6 +69,7 @@ async function login(req, res, next) {
     }
 }
 
+
 /**사용자가 버튼을 통해 refresh요청을 하면 새로운 토큰 발행 */
 async function refresh(req, res, next) {
     try {
@@ -113,6 +95,25 @@ async function getAllAdmin(req, res, next) {
     } catch (err) {
         console.error("관리자 조회 중 오류 발생:", err);
         res.status(400).json({ message: "서버에서 오류가 발생했습니다." });
+        next(err);
+    }
+}
+
+/** 로그인한 관리자 정보 조회 */
+async function getAdminDetail(req, res, next) {
+    try {
+        const { mId } = req.user; // 토큰에서 mId 가져오기
+
+        const adminInfo = await admin.findOne({ mId }).select("position rank name -_id");
+
+        if (!adminInfo) {
+            return res.status(404).json({ message: "관리자를 찾을 수 없습니다." });
+        }
+
+        res.status(200).json(adminInfo);
+    } catch (err) {
+        console.error("관리자 조회 중 오류 발생:", err);
+        res.status(500).json({ message: "서버에서 오류가 발생했습니다." });
         next(err);
     }
 }

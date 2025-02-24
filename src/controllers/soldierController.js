@@ -8,6 +8,7 @@ export const soldierController = {
     deleteSoldier,
 };
 
+
 /**병사 개인정보 저장 */
 async function saveSoldier(req, res, next) {
     try {
@@ -59,27 +60,34 @@ async function getSoldierDetail(req, res, next) {
 /**전체 병사 리스트 조회 */
 async function getAllSoldiers(req, res, next) {
     try {
-        const { unit } = req.params;
+        const { unit, page = 1 } = req.query;
         const { skip, limit } = req.pagination;
+
+        // URL에서 받은 unit이 "all"이면 모든 병사 조회, 그렇지 않으면 특정 unit 조회
+        let filter;
+        if (unit === "all") { filter = {}; }
+        else filter = { unit: unit };
 
         //병사 목록 조회
         const list = await soldier
-            .find({ unit: { $in: unit } })
+            .find(filter)
             .select("mId rank name unit -_id")
             .sort({ unit: 1, mId: 1 })
             .skip(skip)
             .limit(limit);
+
+        const totalSoldiers = await soldier.countDocuments(filter);
 
         //병사가 존재하지 않을 경우 예외처리
         if (list.length === 0) {
             return res.status(404).json({ message: "조회된 병사가 없습니다." });
         }
 
-        console.log(list);
         res.status(200).json({
-            page: Math.ceil(skip / limit) + 1, // 현재 페이지 계산
-            limit: limit,
-            totalSoldiers: await soldier.countDocuments({ unit: { $in: unit } }), // 전체 병사 수
+            page,
+            limit,
+            totalPages: Math.ceil(totalSoldiers / limit),
+            totalSoldiers,
             soldiers: list
         });
     } catch (err) {

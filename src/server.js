@@ -22,16 +22,19 @@ function checkEnv() {
 //보안 및 미들웨어 설정
 function setMiddleware(app) {
     app.use(helmet()); // 보안 강화
-    app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 100 })); // 요청 제한 (15분간 최대 100회)
+    const limiter = rateLimit({
+        windowMs: 1 * 60 * 1000, // 1분
+        max: 100, // 최대 100회
+        message: "경고: 너무 많은 요청이 감지되었습니다. 잠시 후 다시 시도하세요."
+    });
     app.use(cors()); // CORS 활성화
     app.use(express.json()); // JSON 요청 본문 처리
     app.use(express.urlencoded({ extended: true })); // URL 인코딩된 요청 본문 처리
 }
 
-//정적 파일 제공
 function setStaticFiles(app) {
-    app.use(express.static(path.join(__dirname, "public")));
-    app.use(express.static(path.join(__dirname, "views")));
+    app.use(express.static(path.join(__dirname, "public")));  // ✅ CSS, JS, 이미지 제공
+    app.use(express.static(path.join(__dirname, "views")));   // ✅ HTML 파일 제공
 }
 
 //데이터베이스 연결

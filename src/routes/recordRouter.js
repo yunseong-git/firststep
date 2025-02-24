@@ -11,6 +11,6 @@ recordRouter.get("/:mId/:recordId", checkAuth, recordController.getDetails); //m
 
 recordRouter.post("/", checkAuth, recordController.saveRecord); //mid 병사에 기록 추가
 
-recordRouter.patch("/:mid/:recordId", checkAuth, recordController.updateRecord); // mid 병사에 recordId 수정
+recordRouter.patch("/:mid/:recordId", checkAuth, recordController.updateRecord); // mid 병사에 recordId 기록수정
 
 export { recordRouter };
