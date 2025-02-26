@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>면담 기록 추가</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <h1>면담 기록 추가</h1>
+    <form id="recordAddForm">
+        <label>면담 날짜:</label>
+        <input type="date" id="date" required>
+
+        <label>면담자:</label>
+        <input type="text" id="interviewer" required>
+
+        <label>면담 종류:</label>
+        <select id="type">
+            <option value="regular">정기</option>
+            <option value="frequent">수시</option>
+            <option value="special">특별</option>
+        </select>
+
+        <label>중요도 (1~5):</label>
+        <input type="number" id="priority" min="1" max="5" required>
+
+        <label>내용:</label>
+        <textarea id="content" required></textarea>
+
+        <button type="submit">등록</button>
+    </form>
+    <button id="cancelBtn">취소</button>
+
+    <script src="/scripts/records/recordAdd.js"></script>
+</body>
+</html>

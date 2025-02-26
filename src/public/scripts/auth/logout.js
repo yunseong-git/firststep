@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     `;
     document.body.prepend(navbar);
 
+
     function getTokenExpiration(token) {
         if (!token) return null;
         try {
@@ -24,24 +25,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
     }
 
-    async function fetchAdminInfo() {
-        try {
-            const token = localStorage.getItem("token");
-            const response = await fetch("http://localhost:8000/admins/me", {
-                headers: { "Authorization": `Bearer ${token}` }
-            });
-    
-            const data = await response.json();
-            if (response.ok) {
-                document.getElementById("adminInfo").textContent = `${data.rank} ${data.name} (${data.position})`;
-            } else {
-                document.getElementById("adminInfo").textContent = "관리자 정보 불러오기 실패";
-            }
-        } catch (error) {
-            console.error("관리자 정보 조회 중 오류 발생:", error);
-            document.getElementById("adminInfo").textContent = "관리자 정보 불러오기 실패";
-        }
-    }
 
     function updateTokenExpiryTime() {
         clearInterval(interval); // 기존 인터벌 제거
@@ -72,7 +55,48 @@ document.addEventListener("DOMContentLoaded", async function () {
         }, 1000);
     }
 
+    
+async function fetchAdminInfo() {
+    try {
+        const token = localStorage.getItem("token");
+        const response = await fetch("http://localhost:8000/admins/me", {
+            headers: { "Authorization": `Bearer ${token}` }
+        });
+
+        const data = await response.json();
+        console.log("Admin Data:", data); // ✅ 로그 확인
+
+        if (response.ok) {
+            document.getElementById("adminInfo").innerHTML = `
+                ${data.rank} ${data.name} (${data.position}) 
+                <button id="editAdminBtn" style="margin-left: 10px;">내정보수정</button>
+                <button id="manageUnitBtn" style="margin-left: 10px; display: none;">부대관리</button>
+            `;
+
+            document.getElementById("editAdminBtn").addEventListener("click", () => {
+                window.location.href = "/adminEdit.html";
+            });
+
+            if (data.unit === "all") { // ✅ 여기 값 확인
+                console.log("✅ 관리자 권한이 'all' 입니다. 버튼 표시!");
+                document.getElementById("manageUnitBtn").style.display = "inline-block";
+                document.getElementById("manageUnitBtn").addEventListener("click", () => {
+                    window.location.href = "/admins.html"; 
+                });
+            } else {
+                console.log("❌ 관리자 권한이 'all'이 아님. 버튼 숨김");
+            }
+        } else {
+            document.getElementById("adminInfo").textContent = "관리자 정보 불러오기 실패";
+        }
+    } catch (error) {
+        console.error("관리자 정보 조회 중 오류 발생:", error);
+        document.getElementById("adminInfo").textContent = "관리자 정보 불러오기 실패";
+    }
+}
+
     updateTokenExpiryTime(); // 초기 실행
+    fetchAdminInfo(); // ✅ 관리자 정보 불러오기
 
     // 로그아웃 버튼 클릭 이벤트
     document.getElementById("logoutBtn").addEventListener("click", function () {

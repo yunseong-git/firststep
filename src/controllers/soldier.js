@@ -1,14 +1,5 @@
 import { soldier } from "../models/soldier";
 
-export const soldierController = {
-    saveSoldier,
-    getSoldierDetail,
-    getAllSoldiers,
-    updateSoldier,
-    deleteSoldier,
-};
-
-
 /**병사 개인정보 저장 */
 async function saveSoldier(req, res, next) {
     try {
@@ -63,12 +54,10 @@ async function getAllSoldiers(req, res, next) {
         const { unit, page = 1 } = req.query;
         const { skip, limit } = req.pagination;
 
-        // URL에서 받은 unit이 "all"이면 모든 병사 조회, 그렇지 않으면 특정 unit 조회
-        let filter;
-        if (unit === "all") { filter = {}; }
-        else filter = { unit: unit };
+        // ✅ 유닛 필터 설정
+        let filter = unit && unit !== "all" ? { unit } : {};
 
-        //병사 목록 조회
+        // ✅ 병사 목록 조회
         const list = await soldier
             .find(filter)
             .select("mId rank name unit -_id")
@@ -78,17 +67,13 @@ async function getAllSoldiers(req, res, next) {
 
         const totalSoldiers = await soldier.countDocuments(filter);
 
-        //병사가 존재하지 않을 경우 예외처리
-        if (list.length === 0) {
-            return res.status(404).json({ message: "조회된 병사가 없습니다." });
-        }
-
+        // ✅ 병사가 없어도 200 OK 반환
         res.status(200).json({
             page,
             limit,
             totalPages: Math.ceil(totalSoldiers / limit),
             totalSoldiers,
-            soldiers: list
+            soldiers: list || [] // ✅ 빈 배열 반환
         });
     } catch (err) {
         console.error("병사 조회 중 오류 발생:", err);
@@ -97,11 +82,11 @@ async function getAllSoldiers(req, res, next) {
     }
 }
 
-/**병사 정보 업데이트 */
+/** 용사 정보 업데이트 */
 async function updateSoldier(req, res, next) {
     try {
         const { mId } = req.params;
-        const allowedUpdates = ["rank", "phoneNumber", "height", "hobby",];
+        const allowedUpdates = ["rank", "phoneNumber", "height", "hobby"];
         const updateFields = {};
 
         allowedUpdates.forEach((field) => {
@@ -114,53 +99,28 @@ async function updateSoldier(req, res, next) {
             return res.status(400).json({ message: "업데이트할 정보가 없습니다." });
         }
 
-        const updatedSoldier = await admin.findOneAndUpdate(
+        const updatedSoldier = await soldier.findOneAndUpdate(
             { mId },
             { $set: updateFields },
             { new: true, runValidators: true }
         );
+
         if (!updatedSoldier) {
-            return res.status(404).json({ message: "해당 군번의 병사가 존재하지 않습니다." });
+            return res.status(404).json({ message: "해당 군번의 용사가 존재하지 않습니다." });
         }
 
-        console.log("병사 정보 업데이트 완료:", updatedSoldier);
+        console.log("용사 정보 업데이트 완료:", updatedSoldier);
         res.status(200).json(updatedSoldier);
     } catch (err) {
-        console.error("병사 정보 업데이트 중 오류 발생:", err);
+        console.error("용사 정보 업데이트 중 오류 발생:", err);
         res.status(500).json({ message: "서버 오류 발생" });
         next(err);
     }
 }
 
-/**병사 모든 정보 삭제(cascade delete) */
-async function deleteSoldier(req, res, next) {
-    try {
-
-        const { mId } = req.params;
-        const soldierData = await soldier.findOne({ mId });
-
-        //선택 병사 정보 확인
-        if (!soldierData) {
-            return res.status(404).json({ message: "해당 군번의 병사가 존재하지 않습니다." });
-        }
-
-        //권한 확인
-        if (req.user.role !== "all" && soldierData.unit !== req.user.role) {
-            return res.status(403).json({ message: "접근 권한이 없습니다." });
-        }
-
-        //병사정보 삭제
-        await soldier.deleteOne({ mId });
-
-        //관련기록 삭제
-
-        console.log(`병사 ${mId} 삭제 완료 (관련 기록 및 점수 삭제 포함)`);
-        res.status(200).json({ message: `병사 ${mId} 삭제 완료 (관련 기록 및 점수 삭제 포함)` });
-
-
-    } catch (err) {
-        console.error("병사 삭제 중 오류 발생:", err);
-        res.status(500).json({ message: "서버 오류 발생" });
-        next(err);
-    }
-}
+export const soldierController = {
+    saveSoldier,
+    getSoldierDetail,
+    getAllSoldiers,
+    updateSoldier,
+};

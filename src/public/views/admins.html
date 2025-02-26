@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>부대 관리</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <h1>부대 관리</h1>
+    <button id="addAdminBtn">관리자 등록</button>
+    <table>
+        <thead>
+            <tr>
+                <th>군번</th>
+                <th>이름</th>
+                <th>계급</th>
+                <th>직책</th>
+                <th>소속</th>
+                <th>관리</th>
+            </tr>
+        </thead>
+        <tbody id="adminTable"></tbody>
+    </table>
+
+    <button id="backToList">목록으로</button>
+
+    <!-- 관리자 등록 모달창 -->
+    <div id="addAdminModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>신규 관리자 등록</h2>
+            <form id="addAdminForm">
+                <label>군번:</label> <input type="text" id="newMId" required>
+                <label>비밀번호:</label> <input type="password" id="newPassword" required>
+                <label>이름:</label> <input type="text" id="newName" required>
+                <label>계급:</label> <input type="text" id="newRank" required>
+                <label>직책:</label> <input type="text" id="newPosition" required>
+                <label>소속:</label> 
+                <select id="newUnit">
+                    <option value="1소대">1소대</option>
+                    <option value="2소대">2소대</option>
+                    <option value="3소대">3소대</option>
+                    <option value="all">all</option>
+                </select>
+                <button type="submit">등록</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="/scripts/admins/admin.js"></script>
+</body>
+</html>

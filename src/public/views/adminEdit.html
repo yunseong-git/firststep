@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>관리자 정보 수정</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <h1>관리자 정보 수정</h1>
+    <form id="updateAdminForm">
+        <label>직책:</label>
+        <input type="text" id="position">
+        <label>계급:</label>
+        <input type="text" id="rank">
+        <label>이름:</label>
+        <input type="text" id="name">
+        <button type="submit">정보수정</button>
+    </form>
+
+    <button id="changePasswordBtn">비밀번호 변경</button>
+    <button id="cancelBtn">취소</button>
+
+    <!-- 비밀번호 변경 팝업 -->
+    <div id="passwordModal" class="modal">
+        <div class="modal-content">
+            <h2>비밀번호 변경</h2>
+            <label>현재 비밀번호:</label>
+            <input type="password" id="currentPassword">
+            <label>새 비밀번호:</label>
+            <input type="password" id="newPassword">
+            <button id="submitPasswordChange">변경하기</button>
+            <button id="closeModal">닫기</button>
+        </div>
+    </div>
+
+    <script src="/scripts/admins/adminEdit.js"></script>
+</body>
+</html>

@@ -5,7 +5,8 @@ import dotenv from "dotenv";
 import path from "path";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
-import routers from "./routes/routers";
+import routers from "./routes";
+import fs from "fs";
 
 dotenv.config();
 
@@ -31,10 +32,25 @@ function setMiddleware(app) {
     app.use(express.json()); // JSON 요청 본문 처리
     app.use(express.urlencoded({ extended: true })); // URL 인코딩된 요청 본문 처리
 }
-
 function setStaticFiles(app) {
-    app.use(express.static(path.join(__dirname, "public")));  // ✅ CSS, JS, 이미지 제공
-    app.use(express.static(path.join(__dirname, "views")));   // ✅ HTML 파일 제공
+    // ✅ `public` 전체 폴더를 정적으로 제공 (CSS, JS, 이미지)
+    const publicPath = path.join(__dirname, "public");
+    app.use(express.static(publicPath));
+
+    // ✅ `views` 폴더는 `/` 루트에서 접근 가능하도록 설정
+    const viewsPath = path.join(publicPath, "views");
+    app.use("/", express.static(viewsPath));
+
+    // ✅ CSS, JS 파일이 있는 폴더도 명확하게 지정
+    app.use("/css", express.static(path.join(publicPath, "css")));
+    app.use("/scripts", express.static(path.join(publicPath, "scripts")));
+
+    // ✅ 로그로 경로 확인
+    console.log("✅ Serving static files from:", viewsPath);
+    console.log("✅ Static file directories:");
+    console.log("   - / (Views) ->", viewsPath);
+    console.log("   - /css ->", path.join(publicPath, "css"));
+    console.log("   - /scripts ->", path.join(publicPath, "scripts"));
 }
 
 //데이터베이스 연결
@@ -48,23 +64,26 @@ async function connectDatabase() {
     }
 }
 
-//라우터 등록
 function setRoutes(app) {
-    routers.forEach(({ path, router }) => {
-        app.use(path, router);
+    app.use("/", routers);
+
+    // ✅ soldiers.html 요청이 들어오는지 확인하는 로그
+    app.get("/soldiers.html", (req, res, next) => {
+        console.log("📢 soldiers.html 요청됨");
+        next();  // 다음 핸들러 실행
     });
 
-    // 메인 페이지
+    // ✅ 메인 페이지 기본 경로
     app.get("/", (req, res) => {
-        res.sendFile(path.join(process.cwd(), "src", "views", "index.html"));
+        res.sendFile(path.join(__dirname, "src", "public", "views", "login.html"));
     });
 
-    // 404 처리
+    // ✅ 404 처리
     app.use((req, res) => {
+        console.log(`❌ 404 Not Found: ${req.url}`);  // 요청 경로 확인
         res.status(404).send("404 Not Found");
     });
 }
-
 //서버 실행
 function startServer(app) {
     app.listen(process.env.PORT, () => {

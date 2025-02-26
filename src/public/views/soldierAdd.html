@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>용사 전입</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <h1>용사 전입</h1>
+    <form id="addSoldierForm">
+        <label>군번:</label>
+        <input type="text" id="mId" required>
+        
+        <label>소속:</label>
+        <select id="unit" required>
+            <option value="1소대">1소대</option>
+            <option value="2소대">2소대</option>
+            <option value="3소대">3소대</option>
+        </select>
+
+        <label>계급:</label>
+        <input type="text" id="rank" required>
+
+        <label>이름:</label>
+        <input type="text" id="name" required>
+
+        <label>입대일:</label>
+        <input type="date" id="startDate" required>
+
+        <label>전역일:</label>
+        <input type="date" id="endDate" required>
+
+        <label>주특기:</label>
+        <input type="text" id="specialty" required>
+
+        <label>주특기 코드:</label>
+        <input type="number" id="specialtyCode" required>
+
+        <label>직책:</label>
+        <input type="text" id="position" required>
+
+        <label>전화번호:</label>
+        <input type="text" id="phoneNumber" required>
+
+        <label>키:</label>
+        <input type="number" id="height" required>
+
+        <label>취미:</label>
+        <input type="text" id="hobby" required>
+
+        <button type="submit">등록</button>
+        <button type="button" id="cancelButton">취소</button>
+    </form>
+    <script src="/scripts/auth/logout.js"></script> <!-- 로그아웃 & 로그인 연장 추가 -->
+    <script src="/scripts/soldiers/soldierAdd.js"></script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>용사 목록</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h1>용사 명단</h1>
+        <button id="addSoldierBtn">용사 전입</button>
+    </div>
+
+    <button class="unit-btn" data-unit="1소대">1소대</button>
+    <button class="unit-btn" data-unit="2소대">2소대</button>
+    <button class="unit-btn" data-unit="3소대">3소대</button>
+    <button class="unit-btn" data-unit="all">전체</button>
+
+    <table>
+        <thead>
+            <tr>
+                <th>군번</th>
+                <th>소속</th>
+                <th>계급</th>
+                <th>이름</th>
+                <th>조회</th>
+            </tr>
+        </thead>
+        <tbody id="soldierTable"></tbody>
+    </table>
+
+    <div>
+        <button id="prevPageButton">이전 페이지</button>
+        <span id="currentPage">1</span> / <span id="totalPages">1</span>
+        <button id="nextPageButton">다음 페이지</button>
+    </div>
+
+    <script src="/scripts/auth/logout.js"></script>
+    <script src="/scripts/soldiers/soldiers.js"></script>
+</body>
+</html>
