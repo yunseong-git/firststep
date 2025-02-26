@@ -12,6 +12,6 @@ root.post("/newAdmin", checkAuth, rootController.registAdmin); //신규 관리�
 root.patch("/unit", checkAuth, rootController.updateAdminUnit); //관리자 소속변경
 root.patch("/pwd/:mId", checkAuth, rootController.resetPassword); //해당관리자 비밀번호 초기화
 
-root.delete("/", checkAuth, rootController.deleteAdmin); //관리자 삭제
+root.get("/", checkAuth, rootController.deleteAdmin); //관리자 삭제
 
 export { root };

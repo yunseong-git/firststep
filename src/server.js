@@ -56,7 +56,7 @@ function setStaticFiles(app) {
 //데이터베이스 연결
 async function connectDatabase() {
     try {
-        await mongoose.connect(process.env.DB_URL, { dbName: "first" });
+        await mongoose.connect(process.env.DB_URL, { dbName: "MDB" });
         console.log("✅ MongoDB connected");
     } catch (err) {
         console.error("❌ MongoDB connection error:", err);
@@ -66,12 +66,6 @@ async function connectDatabase() {
 
 function setRoutes(app) {
     app.use("/", routers);
-
-    // ✅ soldiers.html 요청이 들어오는지 확인하는 로그
-    app.get("/soldiers.html", (req, res, next) => {
-        console.log("📢 soldiers.html 요청됨");
-        next();  // 다음 핸들러 실행
-    });
 
     // ✅ 메인 페이지 기본 경로
     app.get("/", (req, res) => {
