@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { soldierController } from "../controllers/soldier"
-import { checkAuth } from "../middlewares/checkAuth";
-import { pagination } from "../middlewares/pagination";
+import { checkAuth } from "../middlewares/checkAuth.js";
+import { pagination } from "../middlewares/pagination.js";
 
 const soldier = new Router();
 

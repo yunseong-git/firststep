@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { rootController } from "../controllers/root";
-import { checkAuth } from "../middlewares/checkAuth";
+import { rootController } from "../controllers/root.js";
+import { checkAuth } from "../middlewares/checkAuth.js";
 
 /**all 권한 전용 routes*/
 const root = Router();

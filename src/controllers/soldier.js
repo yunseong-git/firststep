@@ -1,4 +1,4 @@
-import { soldier } from "../models/soldier";
+import { soldier } from "../models/soldier.js";
 
 /**병사 개인정보 저장 */
 async function saveSoldier(req, res, next) {

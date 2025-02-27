@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { adminController } from "../controllers/admin";
-import { checkAuth } from "../middlewares/checkAuth";
+import { adminController } from "../controllers/admin.js";
+import { checkAuth } from "../middlewares/checkAuth.js";
 
 /**공통 및 일반관리자 routes*/
 const admin = Router();

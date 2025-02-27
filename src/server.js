@@ -6,7 +6,6 @@ import path from "path";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 import routers from "./routes";
-import fs from "fs";
 
 dotenv.config();
 

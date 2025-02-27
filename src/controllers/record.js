@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import { record } from "../models/record"
-import { soldier } from "../models/soldier";
+import { record } from "../models/record.js"
+import { soldier } from "../models/soldier.js";
 //모든 면담기록은 본인 소속만 가능
 
 
