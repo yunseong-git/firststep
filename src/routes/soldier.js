@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { soldierController } from "../controllers/soldier"
+import { soldierController } from "../controllers/soldier.js"
 import { checkAuth } from "../middlewares/checkAuth.js";
 import { pagination } from "../middlewares/pagination.js";
 
