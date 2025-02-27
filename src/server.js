@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 import path from "path";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
-import routers from "./routes.js";
+import routers from "./routes/index.js";
 
 dotenv.config();
 
