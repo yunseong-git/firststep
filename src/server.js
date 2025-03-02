@@ -37,23 +37,22 @@ function setMiddleware(app) {
     app.use(express.urlencoded({ extended: true })); // URL 인코딩된 요청 본문 처리
 }
 function setStaticFiles(app) {
-    // ✅ 운영체제(OS)에 따라 `src/public` 경로 설정
-    const publicPath = path.join(__dirname, "public");  // 🔥 src 내부의 public을 지정
-
-    // ✅ 정적 파일 제공 (CSS, JS, 이미지)
+    // ✅ `public` 전체 폴더를 정적으로 제공 (CSS, JS, 이미지)
+    const publicPath = path.join(__dirname, "../public");
     app.use(express.static(publicPath));
 
     // ✅ `views` 폴더는 `/` 루트에서 접근 가능하도록 설정
-    app.use("/", express.static(path.join(publicPath, "views")));
+    const viewsPath = path.join(publicPath, "views");
+    app.use("/", express.static(viewsPath));
 
-    // ✅ 개별 정적 경로 추가 (CSS, Scripts 등)
+    // ✅ CSS, JS 파일이 있는 폴더도 명확하게 지정
     app.use("/css", express.static(path.join(publicPath, "css")));
     app.use("/scripts", express.static(path.join(publicPath, "scripts")));
 
     // ✅ 로그로 경로 확인
-    console.log("✅ Serving static files from:", path.join(publicPath, "views"));
+    console.log("✅ Serving static files from:", viewsPath);
     console.log("✅ Static file directories:");
-    console.log("   - / (Views) ->", path.join(publicPath, "views"));
+    console.log("   - / (Views) ->", viewsPath);
     console.log("   - /css ->", path.join(publicPath, "css"));
     console.log("   - /scripts ->", path.join(publicPath, "scripts"));
 }
