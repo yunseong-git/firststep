@@ -37,22 +37,22 @@ function setMiddleware(app) {
     app.use(express.urlencoded({ extended: true })); // URL 인코딩된 요청 본문 처리
 }
 function setStaticFiles(app) {
-    // ✅ `public` 전체 폴더를 정적으로 제공 (CSS, JS, 이미지)
+    // `public` 전체 폴더를 정적으로 제공 (CSS, JS, 이미지)
     const publicPath = path.join(__dirname, "../public");
     app.use(express.static(publicPath));
 
-    // ✅ `views` 폴더는 `/` 루트에서 접근 가능하도록 설정
+    // `views` 폴더는 `/` 루트에서 접근 가능하도록 설정
     const viewsPath = path.join(publicPath, "views");
     app.use("/", express.static(viewsPath));
 
-    // ✅ CSS, JS 파일이 있는 폴더도 명확하게 지정
+    // CSS, JS 파일이 있는 폴더도 명확하게 지정
     app.use("/css", express.static(path.join(publicPath, "css")));
     app.use("/scripts", express.static(path.join(publicPath, "scripts")));
 
-    // ✅ 로그로 경로 확인
-    console.log("✅ Serving static files from:", viewsPath);
-    console.log("✅ Static file directories:");
-    console.log("   - / (Views) ->", viewsPath);
+    // 로그로 경로 확인
+    console.log("Serving static files from:", viewsPath);
+    console.log("정적 파일 디렉토리:");
+    console.log("   - /Views ->", viewsPath);
     console.log("   - /css ->", path.join(publicPath, "css"));
     console.log("   - /scripts ->", path.join(publicPath, "scripts"));
 }
@@ -61,10 +61,10 @@ function setStaticFiles(app) {
 async function connectDatabase() {
     try {
         await mongoose.connect(process.env.DB_URL, { dbName: "MDB" });
-        console.log("✅ MongoDB connected");
+        console.log("MongoDB connected");
     } catch (err) {
-        console.error("❌ MongoDB connection error:", err);
-        process.exit(1); // 연결 실패 시 서버 종료
+        console.error("MongoDB connection error:", err);
+        process.exit(1); 
     }
 }
 
@@ -73,7 +73,7 @@ function setRoutes(app) {
 
     // ✅ 메인 페이지 기본 경로
     app.get("/", (req, res) => {
-        res.sendFile(path.join(__dirname, "src", "public", "views", "login.html"));
+        res.sendFile(path.join(__dirname, "src", "public", "views", "index.html"));
     });
 
     // ✅ 404 처리
@@ -106,7 +106,7 @@ async function initializeServer() {
 
         startServer(app); // 서버 실행
     } catch (err) {
-        console.error("❌ Server initialization failed:", err);
+        console.error("Server initialization failed:", err);
         process.exit(1);
     }
 }
