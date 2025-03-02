@@ -38,7 +38,7 @@ function setMiddleware(app) {
 }
 function setStaticFiles(app) {
     // `public` 전체 폴더를 정적으로 제공 (CSS, JS, 이미지)
-    const publicPath = path.join(__dirname, "../public");
+    const publicPath = path.join(__dirname, "../src/public");
     app.use(express.static(publicPath));
 
     // `views` 폴더는 `/` 루트에서 접근 가능하도록 설정
