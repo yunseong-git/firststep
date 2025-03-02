@@ -38,19 +38,18 @@ function setMiddleware(app) {
 }
 function setStaticFiles(app) {
     // `public` 전체 폴더를 정적으로 제공 (CSS, JS, 이미지)
-    const publicPath = path.join(__dirname, "../src/public");
+    const publicPath = path.join(__dirname, "/public");
+    const viewsPath = path.join(publicPath, "views")
+
     app.use(express.static(publicPath));
-
-    // `views` 폴더는 `/` 루트에서 접근 가능하도록 설정
-    const viewsPath = path.join(publicPath, "views");
     app.use("/", express.static(viewsPath));
-
-    // CSS, JS 파일이 있는 폴더도 명확하게 지정
     app.use("/css", express.static(path.join(publicPath, "css")));
     app.use("/scripts", express.static(path.join(publicPath, "scripts")));
 
     // 로그로 경로 확인
-    console.log("Serving static files from:", viewsPath);
+    console.log("__dirname:", __dirname);
+    console.log("publicPath:", publicPath);
+    console.log("viewsPath:", viewsPath);
     console.log("정적 파일 디렉토리:");
     console.log("   - /Views ->", viewsPath);
     console.log("   - /css ->", path.join(publicPath, "css"));
@@ -64,7 +63,7 @@ async function connectDatabase() {
         console.log("MongoDB connected");
     } catch (err) {
         console.error("MongoDB connection error:", err);
-        process.exit(1); 
+        process.exit(1);
     }
 }
 
