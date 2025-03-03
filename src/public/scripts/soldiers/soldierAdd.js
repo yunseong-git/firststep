@@ -18,7 +18,7 @@ document.getElementById("addSoldierForm").addEventListener("submit", async funct
 
     const token = localStorage.getItem("token");
 
-    const response = await fetch("http://localhost:8000/soldiers/newSoldier", {
+    const response = await fetch("/soldiers/newSoldier", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

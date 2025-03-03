@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     const token = localStorage.getItem("token");
 
     try {
-        const response = await fetch(`http://localhost:8000/records/${mId}/${recordId}`, {
+        const response = await fetch(`/records/${mId}/${recordId}`, {
             headers: { "Authorization": `Bearer ${token}` }
         });
 
@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         console.log("✅ 수정 데이터:", updatedRecord);
 
         try {
-            const response = await fetch(`http://localhost:8000/records/${mId}/${recordId}`, {
+            const response = await fetch(`/records/${mId}/${recordId}`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",

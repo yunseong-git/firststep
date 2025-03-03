@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 async function fetchAdmins() {
     const token = localStorage.getItem("token");
-    const response = await fetch("http://localhost:8000/roots/list", { // ✅ 변경된 라우트 반영
+    const response = await fetch("/roots/list", { // ✅ 변경된 라우트 반영
         headers: { "Authorization": `Bearer ${token}` }
     });
 
@@ -86,7 +86,7 @@ async function resetPassword(mId) {
     const token = localStorage.getItem("token");
 
     try {
-        const response = await fetch(`http://localhost:8000/roots/pwd/${mId}`, { // ✅ 변경된 라우트 반영
+        const response = await fetch(`/roots/pwd/${mId}`, { // ✅ 변경된 라우트 반영
             method: "PATCH",
             headers: { "Authorization": `Bearer ${token}` }
         });
@@ -108,7 +108,7 @@ async function changeUnit(mId, currentUnit) {
     if (!newUnit) return;
 
     const token = localStorage.getItem("token");
-    await fetch("http://localhost:8000/roots/unit", { // ✅ 변경된 라우트 반영
+    await fetch("/roots/unit", { // ✅ 변경된 라우트 반영
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",
@@ -125,7 +125,7 @@ async function deleteAdmin(mId) {
     if (!confirm("경고! 정말 삭제하시겠습니까? 적용 후 되돌릴 수 없습니다.")) return;
 
     const token = localStorage.getItem("token");
-    const response = await fetch("http://localhost:8000/roots", { // ✅ 변경된 라우트 반영
+    const response = await fetch("/roots", { // ✅ 변경된 라우트 반영
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",
@@ -153,7 +153,7 @@ async function registerAdmin() {
     };
 
     const token = localStorage.getItem("token");
-    const response = await fetch("http://localhost:8000/roots/newAdmin", { // ✅ 변경된 라우트 반영
+    const response = await fetch("/roots/newAdmin", { // ✅ 변경된 라우트 반영
         method: "POST",
         headers: {
             "Content-Type": "application/json",

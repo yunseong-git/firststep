@@ -4,7 +4,7 @@ document.getElementById("loginForm").addEventListener("submit", async function (
     const mId = document.getElementById("mId").value;
     const password = document.getElementById("password").value;
 
-    const response = await fetch("http://localhost:8000/admins/login", {
+    const response = await fetch("/admins/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ mId, password })
@@ -15,7 +15,7 @@ document.getElementById("loginForm").addEventListener("submit", async function (
     if (response.ok) {
         alert("로그인 성공");
         localStorage.setItem("token", data.token); // JWT 저장
-        window.location.href = "/soldiers.html";  // 메인 페이지 이동
+        window.location.href = "/soldiers.html";  // 페이지 이동
     } else {
         if (data.message.includes("비밀번호 변경이 필요")) {
             alert("비밀번호 변경이 필요합니다.");
@@ -40,7 +40,7 @@ document.getElementById("changePasswordBtn").addEventListener("click", async fun
         return;
     }
 
-    const response = await fetch("http://localhost:8000/admins/pwd/force", {  // ✅ 강제 변경 API 사용
+    const response = await fetch("/admins/pwd/force", {  // ✅ 강제 변경 API 사용
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ mId, currentPassword: mId, newPassword })  // ✅ 로그인 없이 변경하는 경우

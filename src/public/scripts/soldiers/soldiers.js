@@ -37,7 +37,7 @@ async function fetchSoldiers() {
         const page = urlParams.get("page") || 1;
         const unit = urlParams.get("unit") || "all"; // ✅ 현재 필터된 소대 유지
 
-        let url = `http://localhost:8000/soldiers?page=${page}&unit=${encodeURIComponent(unit)}`;
+        let url = `/soldiers?page=${page}&unit=${encodeURIComponent(unit)}`;
 
         console.log("✅ 요청 URL:", url); // 요청 URL 로그 출력
 

@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     async function fetchAdminInfo() {
         try {
-            const response = await fetch("http://localhost:8000/admins/me", { // ✅ 변경된 라우트 반영
+            const response = await fetch("/admins/me", { // ✅ 변경된 라우트 반영
                 headers: { "Authorization": `Bearer ${token}` }
             });
 
@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             name: document.getElementById("name").value
         };
 
-        await fetch("http://localhost:8000/admins/me", { // ✅ 변경된 라우트 반영
+        await fetch("/admins/me", { // ✅ 변경된 라우트 반영
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         const newPassword = document.getElementById("newPassword").value;
 
         try {
-            const response = await fetch("http://localhost:8000/admins/pwd", {
+            const response = await fetch("/admins/pwd", {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",

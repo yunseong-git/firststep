@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 async function fetchAdminInfo() {
     try {
         const token = localStorage.getItem("token");
-        const response = await fetch("http://localhost:8000/admins/me", {
+        const response = await fetch("/admins/me", {
             headers: { "Authorization": `Bearer ${token}` }
         });
 

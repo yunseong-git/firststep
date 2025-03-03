@@ -3,7 +3,7 @@ async function fetchSoldierDetail() {
     const mId = urlParams.get("mId");
 
     const token = localStorage.getItem("token");
-    const response = await fetch(`http://localhost:8000/soldiers/detail/${mId}`, {
+    const response = await fetch(`/soldiers/detail/${mId}`, {
         headers: { "Authorization": `Bearer ${token}` }
     });
 
@@ -34,9 +34,9 @@ async function fetchSoldierDetail() {
     });
 
     // ✅ "면담 기록" 버튼 클릭 시 면담 기록 페이지로 이동
-document.getElementById("recordButton").addEventListener("click", () => {
-    window.location.href = `/records.html?mId=${encodeURIComponent(mId)}`;
-});
+    document.getElementById("recordButton").addEventListener("click", () => {
+        window.location.href = `/records.html?mId=${encodeURIComponent(mId)}`;
+    });
 }
 
 

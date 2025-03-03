@@ -15,7 +15,7 @@ document.getElementById("recordAddForm").addEventListener("submit", async functi
 
     const token = localStorage.getItem("token");
 
-    const response = await fetch("http://localhost:8000/records", {
+    const response = await fetch("/records", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

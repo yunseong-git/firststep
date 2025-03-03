@@ -11,7 +11,7 @@ async function fetchSoldierData() {
     const token = localStorage.getItem("token");
 
     try {
-        const response = await fetch(`http://localhost:8000/soldiers/detail/${mId}`, {
+        const response = await fetch(`/soldiers/detail/${mId}`, {
             headers: { "Authorization": `Bearer ${token}` }
         });
 
@@ -59,7 +59,7 @@ document.querySelector("#updateForm").addEventListener("submit", async function 
     const token = localStorage.getItem("token");
 
     try {
-        const response = await fetch(`http://localhost:8000/soldiers/updateSoldier/${mId}`, {
+        const response = await fetch(`/soldiers/updateSoldier/${mId}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
