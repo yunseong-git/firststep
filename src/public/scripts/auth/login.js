@@ -55,3 +55,8 @@ document.getElementById("changePasswordBtn").addEventListener("click", async fun
         alert("비밀번호 변경 실패: " + data.message);
     }
 });
+document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("loginButton").addEventListener("click", function () {
+        window.location.href = "/login.html"; // 클릭 시 /login.html로 이동
+    });
+});
