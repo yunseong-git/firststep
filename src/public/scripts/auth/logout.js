@@ -115,7 +115,7 @@ async function fetchAdminInfo() {
         }
 
         try {
-            const response = await fetch("http://localhost:8000/admins/refresh", {
+            const response = await fetch("/admins/refresh", {
                 method: "GET",
                 headers: { "Authorization": `Bearer ${token}` }
             });
